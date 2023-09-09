@@ -10,7 +10,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class KeyProcessingTest {
-
     @Test
     void identifyTypeSortAndData() {
         KeyProcessing keyProcessing = new KeyProcessing();

@@ -60,7 +60,7 @@ public class MergeSortFile {
                     mergeSingleLine(line, destinationPath, tempPath);
                 } else {
                     writer.write(line);
-                    isFirstValue=false;
+                    isFirstValue = false;
                     isEmptyFile = false;
                     writer.close();
                 }

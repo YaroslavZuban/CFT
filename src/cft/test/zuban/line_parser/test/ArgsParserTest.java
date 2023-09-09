@@ -1,19 +1,13 @@
 package cft.test.zuban.line_parser.test;
 
-import cft.test.zuban.comparer.DecreaseNumberComparer;
-import cft.test.zuban.comparer.DecreaseStringComparer;
-import cft.test.zuban.comparer.IncreaseNumberComparer;
-import cft.test.zuban.comparer.IncreaseStringComparer;
 import cft.test.zuban.line_parser.ArgsParser;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ArgsParserTest {
-
     @Test
     void searchKeys() {
         ArgsParser argsParser = new ArgsParser();
@@ -61,8 +55,8 @@ class ArgsParserTest {
     @Test
     void searchFiles() {
         ArgsParser argsParser = new ArgsParser();
-        String[] args1 = {"-s", "out.txt", "in1.txt","in2.txt","in3.txt","in4.txt","in5.txt"};
-        List<String> list1Result = List.of("out.txt", "in1.txt","in2.txt","in3.txt","in4.txt","in5.txt");
+        String[] args1 = {"-s", "out.txt", "in1.txt", "in2.txt", "in3.txt", "in4.txt", "in5.txt"};
+        List<String> list1Result = List.of("out.txt", "in1.txt", "in2.txt", "in3.txt", "in4.txt", "in5.txt");
         assertTrue(list1Result.equals(argsParser.searchFiles(args1)));
 
         String[] args2 = {"-i", "out.txt", "in1.txt"};
@@ -74,7 +68,7 @@ class ArgsParserTest {
         assertTrue(list3Result.equals(argsParser.searchFiles(args3)));
 
         String[] args4 = {"-s", "-d", "out.txt"};
-        List<String> list4Result = List.of( "out.txt");
+        List<String> list4Result = List.of("out.txt");
         assertTrue(list4Result.equals(argsParser.searchFiles(args4)));
 
         String[] args5 = {"-i", "-a"};

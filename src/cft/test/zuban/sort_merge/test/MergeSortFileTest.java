@@ -1,6 +1,5 @@
 package cft.test.zuban.sort_merge.test;
 
-
 import cft.test.zuban.sort_merge.MergeSortFile;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,6 @@ import java.util.Arrays;
 
 
 class MergeSortFileTest {
-
     @Test
     void run() throws IOException {
         //Папка test_file_1, в данном файле находятся целочисленный тип
