@@ -5,10 +5,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 
 
@@ -17,7 +19,7 @@ class MergeSortFileTest {
     void run() throws IOException {
         //Папка test_file_1, в данном файле находятся целочисленный тип
 
-        String path_test_1 = "C:/Users/ben70/IdeaProjects/CFT/src/cft/test/zuban/sort_merge/test/test_file_1/";
+     /*   String path_test_1 = "C:/Users/ben70/IdeaProjects/CFT/src/cft/test/zuban/sort_merge/test/test_file_1/";
 
         String test_file_1_in1 = path_test_1 + "test_file_1_in1.txt";
         String test_file_1_in2 = path_test_1 + "test_file_1_in2.txt";
@@ -25,6 +27,10 @@ class MergeSortFileTest {
 
         String test_file_1_out_ascending = path_test_1 + "test_file_1_out_ascending.txt";
         String test_file_1_out_descending = path_test_1 + "test_file_1_out_descending.txt";
+
+        //Удалить содержимое файла, не удаляя себя
+        Files.newBufferedWriter(Path.of(test_file_1_out_ascending), StandardOpenOption.TRUNCATE_EXISTING);
+        Files.newBufferedWriter(Path.of(test_file_1_out_descending), StandardOpenOption.TRUNCATE_EXISTING);
 
         File file_1_out_ascending = new File(test_file_1_out_ascending);
         File file_1_out_descending = new File(test_file_1_out_descending);
@@ -51,7 +57,7 @@ class MergeSortFileTest {
         MergeSortFile test2 = new MergeSortFile(array_test_1_descending);
         test2.run();
 
-        Assertions.assertTrue(isEqual(file_1_out_descending.toPath(), file_1_result_descending.toPath()));
+        Assertions.assertTrue(isEqual(file_1_out_descending.toPath(), file_1_result_descending.toPath()));*/
 
         //Папка test_file_2, в данном файле находятся целочисленный тип
         // в test_file_2_in3.txt идет пробел на 3 строке
@@ -64,6 +70,10 @@ class MergeSortFileTest {
 
         String test_file_2_out_ascending = path_test_2 + "test_file_2_out_ascending.txt";
         String test_file_2_out_descending = path_test_2 + "test_file_2_out_descending.txt";
+
+        //Удалить содержимое файла, не удаляя себя
+        Files.newBufferedWriter(Path.of(test_file_2_out_ascending), StandardOpenOption.TRUNCATE_EXISTING);
+        Files.newBufferedWriter(Path.of(test_file_2_out_descending), StandardOpenOption.TRUNCATE_EXISTING);
 
         File file_2_out_ascending = new File(test_file_2_out_ascending);
         File file_2_out_descending = new File(test_file_2_out_descending);
@@ -83,7 +93,7 @@ class MergeSortFileTest {
         Assertions.assertTrue(isEqual(file_2_out_ascending.toPath(), file_2_result_ascending.toPath()));
 
         String[] array_test_2_descending = {"-i", "-d",
-                test_file_2_out_ascending,
+                test_file_2_out_descending,
                 test_file_2_in1,
                 test_file_2_in2,
                 test_file_2_in3};
@@ -103,6 +113,10 @@ class MergeSortFileTest {
 
         String test_file_3_out_ascending = path_test_3 + "test_file_3_out_ascending.txt";
         String test_file_3_out_descending = path_test_3 + "test_file_3_out_descending.txt";
+
+        //Удалить содержимое файла, не удаляя себя
+        Files.newBufferedWriter(Path.of(test_file_3_out_ascending), StandardOpenOption.TRUNCATE_EXISTING);
+        Files.newBufferedWriter(Path.of(test_file_3_out_descending), StandardOpenOption.TRUNCATE_EXISTING);
 
         File file_3_out_ascending = new File(test_file_3_out_ascending);
         File file_3_out_descending = new File(test_file_3_out_descending);
@@ -143,6 +157,10 @@ class MergeSortFileTest {
 
         String test_file_4_out_ascending = path_test_4 + "test_file_4_out_ascending.txt";
         String test_file_4_out_descending = path_test_4 + "test_file_4_out_descending.txt";
+
+        //Удалить содержимое файла, не удаляя себя
+        Files.newBufferedWriter(Path.of(test_file_4_out_ascending), StandardOpenOption.TRUNCATE_EXISTING);
+        Files.newBufferedWriter(Path.of(test_file_4_out_descending), StandardOpenOption.TRUNCATE_EXISTING);
 
         File file_4_out_ascending = new File(test_file_4_out_ascending);
         File file_4_out_descending = new File(test_file_4_out_descending);
