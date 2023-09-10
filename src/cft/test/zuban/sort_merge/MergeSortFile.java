@@ -9,7 +9,35 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
+
+/**
+ * В алгоритме реализации:
+ * <p>
+ * 1. Сначала передаем названия файлов - входного файла для чтения, результирующего файла и временного файла.
+ * <p>
+ * 2. Используем функцию mergeWithOrder, которая открывает входной файл, считывает строки и передает их в
+ * результирующий и временный файлы. Если входной файл пуст или не содержит строк, то операция завершается.
+ * <p>
+ * <p>
+ * 3. Далее переходим к функции mergeSingleLine:
+ * <p>
+ * Открываем результирующий файл для чтения.
+ * Открываем временный файл для записи.
+ * Считываем строку из результирующего файла и проверяем, не пуст ли он.
+ * Если результирующий файл не пуст:
+ * Сравниваем считанную строку и текущую строку.
+ * Если условие сравнения истинно, то записываем текущую строку, затем считанную строку. Если условие ложно,
+ * просто записываем текущую строку во временный файл.
+ * Если ни одна строка не была записана, то записываем текущую строку во временный файл.
+ * Если результирующий файл пустой, записываем текущую строку во временный файл.
+ * После завершения записи данных, переименовываем и удаляем файлы:
+ * <p>
+ * 4. Удаляем результирующий файл.
+ * Переименовываем временный файл в результирующий файл.
+ * Этот алгоритм обеспечивает слияние данных из входного файла в результирующий файл, сохраняя при этом порядок
+ */
 
 public class MergeSortFile {
     private Compare compare;
@@ -20,7 +48,7 @@ public class MergeSortFile {
         this.args = args;
     }
 
-    public void run() throws IOException {
+    public void run() {
         ArgsParser argsParser = new ArgsParser();
         List<String> filesList = argsParser.searchFiles(args);
 
@@ -34,37 +62,35 @@ public class MergeSortFile {
         String pathOut = filesList.get(0);
         String tempFile = "tempFile.txt";
 
+        try {
+            createOrClearFile(pathOut);
+        } catch (IOException e) {
+            System.out.println("Ошибка: проблема с файлом " + pathOut);
+            System.exit(0);
+        }
+
         for (int i = 1; i < filesList.size(); i++) {
-            if (i == 1) {
-                mergeFiles(filesList.get(i), pathOut, tempFile);
-            } else {
+            try {
                 mergeWithOrder(filesList.get(i), pathOut, tempFile);
+            } catch (IOException e) {
+                System.out.println("Ошибка: в файле" + filesList.get(i) + " не корректные данные.");
+                System.exit(0);
             }
         }
     }
 
-    private void mergeFiles(String sourcePath, String destinationPath, String tempPath) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(sourcePath));
-             BufferedWriter writer = new BufferedWriter(new FileWriter(destinationPath))) {
+    /**
+     * если файла нет создаем его, если есть очистить в нем все данные
+     */
+    private static void createOrClearFile(String path) throws IOException {
+        File file = new File(path);
 
-            boolean isEmptyFile = true;
-
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                if (line.contains(" ") || line.isEmpty()) {
-                    break;
-                }
-
-                if (!isEmptyFile) {
-                    mergeSingleLine(line, destinationPath, tempPath);
-                } else {
-                    writer.write(line);
-                    isFirstValue = false;
-                    isEmptyFile = false;
-                    writer.close();
-                }
-            }
+        if (!file.exists()) {
+            file.createNewFile();
+        } else {
+            FileWriter writer = new FileWriter(file);
+            writer.write("");
+            writer.close();
         }
     }
 
