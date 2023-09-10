@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,7 +18,7 @@ class MergeSortFileTest {
     void run() throws IOException {
         //Папка test_file_1, в данном файле находятся целочисленный тип
 
-     /*   String path_test_1 = "C:/Users/ben70/IdeaProjects/CFT/src/cft/test/zuban/sort_merge/test/test_file_1/";
+        String path_test_1 = "C:/Users/ben70/IdeaProjects/CFT/src/cft/test/zuban/sort_merge/test/test_file_1/";
 
         String test_file_1_in1 = path_test_1 + "test_file_1_in1.txt";
         String test_file_1_in2 = path_test_1 + "test_file_1_in2.txt";
@@ -57,7 +56,7 @@ class MergeSortFileTest {
         MergeSortFile test2 = new MergeSortFile(array_test_1_descending);
         test2.run();
 
-        Assertions.assertTrue(isEqual(file_1_out_descending.toPath(), file_1_result_descending.toPath()));*/
+        Assertions.assertTrue(isEqual(file_1_out_descending.toPath(), file_1_result_descending.toPath()));
 
         //Папка test_file_2, в данном файле находятся целочисленный тип
         // в test_file_2_in3.txt идет пробел на 3 строке
