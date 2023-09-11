@@ -27,10 +27,6 @@ class MergeSortFileTest {
         String test_file_1_out_ascending = path_test_1 + "test_file_1_out_ascending.txt";
         String test_file_1_out_descending = path_test_1 + "test_file_1_out_descending.txt";
 
-        //Удалить содержимое файла, не удаляя себя
-        Files.newBufferedWriter(Path.of(test_file_1_out_ascending), StandardOpenOption.TRUNCATE_EXISTING);
-        Files.newBufferedWriter(Path.of(test_file_1_out_descending), StandardOpenOption.TRUNCATE_EXISTING);
-
         File file_1_out_ascending = new File(test_file_1_out_ascending);
         File file_1_out_descending = new File(test_file_1_out_descending);
 
@@ -69,10 +65,6 @@ class MergeSortFileTest {
 
         String test_file_2_out_ascending = path_test_2 + "test_file_2_out_ascending.txt";
         String test_file_2_out_descending = path_test_2 + "test_file_2_out_descending.txt";
-
-        //Удалить содержимое файла, не удаляя себя
-        Files.newBufferedWriter(Path.of(test_file_2_out_ascending), StandardOpenOption.TRUNCATE_EXISTING);
-        Files.newBufferedWriter(Path.of(test_file_2_out_descending), StandardOpenOption.TRUNCATE_EXISTING);
 
         File file_2_out_ascending = new File(test_file_2_out_ascending);
         File file_2_out_descending = new File(test_file_2_out_descending);
@@ -113,9 +105,6 @@ class MergeSortFileTest {
         String test_file_3_out_ascending = path_test_3 + "test_file_3_out_ascending.txt";
         String test_file_3_out_descending = path_test_3 + "test_file_3_out_descending.txt";
 
-        //Удалить содержимое файла, не удаляя себя
-        Files.newBufferedWriter(Path.of(test_file_3_out_ascending), StandardOpenOption.TRUNCATE_EXISTING);
-        Files.newBufferedWriter(Path.of(test_file_3_out_descending), StandardOpenOption.TRUNCATE_EXISTING);
 
         File file_3_out_ascending = new File(test_file_3_out_ascending);
         File file_3_out_descending = new File(test_file_3_out_descending);
@@ -157,9 +146,6 @@ class MergeSortFileTest {
         String test_file_4_out_ascending = path_test_4 + "test_file_4_out_ascending.txt";
         String test_file_4_out_descending = path_test_4 + "test_file_4_out_descending.txt";
 
-        //Удалить содержимое файла, не удаляя себя
-        Files.newBufferedWriter(Path.of(test_file_4_out_ascending), StandardOpenOption.TRUNCATE_EXISTING);
-        Files.newBufferedWriter(Path.of(test_file_4_out_descending), StandardOpenOption.TRUNCATE_EXISTING);
 
         File file_4_out_ascending = new File(test_file_4_out_ascending);
         File file_4_out_descending = new File(test_file_4_out_descending);
