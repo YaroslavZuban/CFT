@@ -9,15 +9,31 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
-
 
 class MergeSortFileTest {
     @Test
     void run() throws IOException {
         //Папка test_file_1, в данном файле находятся целочисленный тип
 
+        test_1();
+
+        //Папка test_file_2, в данном файле находятся целочисленный тип
+        // в test_file_2_in3.txt идет пробел на 3 строк
+
+        test_2();
+
+        //Папка test_file_3, в данном файле находятся строковый тип
+
+        test_3();
+
+        //Папка test_file_4, в данном файле находятся строковый тип
+        //В начале файла test_file_4_in1.txt и test_file_4_in2.txt идет пустое пространство
+
+        test_4();
+    }
+
+    private void test_1() {
         String path_test_1 = "C:/Users/ben70/IdeaProjects/CFT/src/cft/test/zuban/sort_merge/test/test_file_1/";
 
         String test_file_1_in1 = path_test_1 + "test_file_1_in1.txt";
@@ -53,10 +69,9 @@ class MergeSortFileTest {
         test2.run();
 
         Assertions.assertTrue(isEqual(file_1_out_descending.toPath(), file_1_result_descending.toPath()));
+    }
 
-        //Папка test_file_2, в данном файле находятся целочисленный тип
-        // в test_file_2_in3.txt идет пробел на 3 строке
-
+    private void test_2() {
         String path_test_2 = "C:/Users/ben70/IdeaProjects/CFT/src/cft/test/zuban/sort_merge/test/test_file_2/";
 
         String test_file_2_in1 = path_test_2 + "test_file_2_in1.txt";
@@ -94,7 +109,9 @@ class MergeSortFileTest {
 
         Assertions.assertTrue(isEqual(file_2_out_descending.toPath(), file_2_result_descending.toPath()));
 
-        //Папка test_file_3, в данном файле находятся строковый тип
+    }
+
+    private void test_3() {
 
         String path_test_3 = "C:/Users/ben70/IdeaProjects/CFT/src/cft/test/zuban/sort_merge/test/test_file_3/";
 
@@ -133,10 +150,9 @@ class MergeSortFileTest {
         test6.run();
 
         Assertions.assertTrue(isEqual(file_3_out_descending.toPath(), file_3_result_descending.toPath()));
+    }
 
-        //Папка test_file_4, в данном файле находятся строковый тип
-        //В начале файла test_file_4_in1.txt и test_file_4_in2.txt идет пустое пространство
-
+    private void test_4() {
         String path_test_4 = "C:/Users/ben70/IdeaProjects/CFT/src/cft/test/zuban/sort_merge/test/test_file_4/";
 
         String test_file_4_in1 = path_test_4 + "test_file_4_in1.txt";
