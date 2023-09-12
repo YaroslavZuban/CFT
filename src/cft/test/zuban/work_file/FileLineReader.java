@@ -1,68 +1,87 @@
 package cft.test.zuban.work_file;
 
+import cft.test.zuban.comparer.Compare;
+
 import java.io.*;
 
-public class FileReader {
+public class FileLineReader {
     private final String filePath;
+    private final boolean isMergeSortDecrease;
     private int start;
     private long end;
     private long position;
+    private boolean isSortedAscending = true;
+    private boolean isSortedDescending = true;
 
-    private final boolean isMergeSortDecrease;
-    private boolean isSortedAscending;
-
-    private boolean isSortedDescending;
-
-    public FileReader(String filePath, boolean isMergeSortDecrease) {
+    public FileLineReader(String filePath, Compare compare, boolean isMergeSortDecrease) {
         this.filePath = filePath;
         this.isMergeSortDecrease = isMergeSortDecrease;
 
         try {
-            checkFileSortDirection(filePath);
+            checkFileSortDirection(filePath, compare);
 
             try (RandomAccessFile file = new RandomAccessFile(filePath, "r")) {
                 long fileLength = file.length();
-                long pointer = fileLength - 1;
+                long pointer = 0;
+
+                start = 0;
+                end = fileLength;
 
                 StringBuilder reversedLine = new StringBuilder();
 
-                while (pointer >= 0) {
+                while (pointer < end) {
                     file.seek(pointer);
                     char currentChar = (char) file.readByte();
-                    pointer--;
+                    pointer++;
 
-                    if (currentChar == '\n') {
+                    if (currentChar == '\r') {
                         if (reversedLine.indexOf(" ") != -1 || reversedLine.isEmpty()) {
-                            end = pointer;
+                            end = pointer - 1;
                             break;
                         }
-
-                        System.out.println(reversedLine.reverse());
                         reversedLine.setLength(0);
                     } else {
-                        reversedLine.append(currentChar);
+                        if (currentChar != '\n') {
+                            reversedLine.append(currentChar);
+                        }
                     }
+                }
+            }
+
+            if (isMergeSortDecrease) {
+                if (isSortedAscending) {
+                    position = end;
+                } else {
+                    position = start;
+                }
+            } else {
+                if (isSortedDescending) {
+                    position = end;
+                } else {
+                    position = start;
                 }
             }
         } catch (IOException e) {
             System.out.println("Файл " + filePath + " не отсортирован");
             System.exit(0);
         }
-
-        if (isMergeSortDecrease && isSortedAscending || !isMergeSortDecrease && isSortedDescending){
-            position=end;
-        }else {
-            position=start;
-        }
-
     }
 
-    public String readLine() {
-        if (isMergeSortDecrease && isSortedAscending || !isMergeSortDecrease && isSortedDescending){
-            return readFileBottomToTop();
-        }
 
-        return readFileTopToBottom();
+    public String readLine() {
+        if (isMergeSortDecrease) {
+            if (isSortedAscending) {
+                return readFileBottomToTop();
+            } else {
+                return readFileTopToBottom();
+            }
+        } else {
+            if (isSortedDescending) {
+                return readFileBottomToTop();
+            } else {
+                return readFileTopToBottom();
+            }
+        }
     }
 
     private String readFileTopToBottom() {
@@ -76,13 +95,20 @@ public class FileReader {
                 char currentChar = (char) file.readByte();
                 pointer++;
 
-                if (currentChar == '\n') {
-                    if (reversedLine.indexOf(" ") != -1 || reversedLine.isEmpty()) {
-                        this.position = pointer;
-                        return  reversedLine.toString();
+                if (currentChar == '\r') {
+                    if (reversedLine.indexOf(" ") == -1 && !reversedLine.isEmpty()) {
+                        position = pointer;
+                        return reversedLine.toString();
                     }
                 } else {
-                    reversedLine.append(currentChar);
+                    if (currentChar != '\n') {
+                        reversedLine.append(currentChar);
+                    }
+                }
+
+                if (pointer == end) {
+                    position = pointer;
+                    return reversedLine.toString();
                 }
             }
         } catch (IOException e) {
@@ -92,22 +118,27 @@ public class FileReader {
         return null;
     }
 
-
     private String readFileBottomToTop() {
         try (RandomAccessFile file = new RandomAccessFile(filePath, "r")) {
             long pointer = position;
+            pointer--;
 
             StringBuilder reversedLine = new StringBuilder();
 
             while (pointer >= 0) {
                 file.seek(pointer);
                 char currentChar = (char) file.readByte();
+
                 pointer--;
 
-                if (currentChar == '\n') {
-                    if (reversedLine.indexOf(" ") != -1 || reversedLine.isEmpty()) {
+                if (currentChar == '\n' || currentChar == '\r' || pointer == -1) {
+                    if (pointer == -1) {
+                        reversedLine.append(currentChar);
+                    }
+
+                    if (!reversedLine.isEmpty() && reversedLine.indexOf(" ") == -1) {
                         this.position = pointer;
-                        return  reversedLine.reverse().toString();
+                        return reversedLine.reverse().toString();
                     }
                 } else {
                     reversedLine.append(currentChar);
@@ -120,28 +151,39 @@ public class FileReader {
         return null;
     }
 
-    private void checkFileSortDirection(String filePath) throws IOException {
+    private void checkFileSortDirection(String filePath, Compare compare) throws IOException {
         try (BufferedReader reader = new BufferedReader(new java.io.FileReader(filePath))) {
 
             String currentLine = reader.readLine();
-            String previousLine = currentLine;
+            String previousLine = reader.readLine();
 
-            isSortedAscending = true;
-            isSortedDescending = true;
+            isSortedAscending = false;
+            isSortedDescending = false;
 
-            while (currentLine != null) {
-                if (currentLine.compareTo(previousLine) < 0) {
-                    isSortedAscending = false;
-                } else if (currentLine.compareTo(previousLine) > 0) {
-                    isSortedDescending = false;
+            if (currentLine != null && previousLine != null) {
+                if (currentLine.isEmpty() || currentLine.contains(" ")) {
+                    isSortedAscending = true;
+                    return;
                 }
 
-                if (!isSortedAscending && !isSortedDescending) {
-                    throw new IOException();
+                if (previousLine.isEmpty() || previousLine.contains(" ")) {
+                    isSortedAscending = true;
+                    return;
                 }
 
-                previousLine = currentLine;
-                currentLine = reader.readLine();
+                if (isMergeSortDecrease) {
+                    if (compare.isNextValid(currentLine, previousLine)) {
+                        isSortedAscending = true;
+                    } else {
+                        isSortedDescending = true;
+                    }
+                } else {
+                    if (compare.isNextValid(previousLine, currentLine)) {
+                        isSortedAscending = true;
+                    } else {
+                        isSortedDescending = true;
+                    }
+                }
             }
         }
     }
